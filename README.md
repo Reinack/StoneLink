@@ -2,6 +2,8 @@
 
 A real-time operational analytics platform for mining and aggregate processing networks. Visualize equipment relationships, simulate faults, and understand cascading impacts across your supply chain with two-tier impact analysis.
 
+Deployment: https://stonelink.onrender.com
+
 ![StoneLink Architecture](docs/ARCHITECTURE.md)
 
 ## Features
