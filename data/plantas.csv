@@ -1,0 +1,4 @@
+id,nombre,tipo,estado,capacidad_ton
+1,Planta A,Trituracion,Activa,4000
+2,Planta B,Clasificacion,Activa,3500
+3,Planta C,Trituracion,Mantenimiento,2000

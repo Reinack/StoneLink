@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StoneLink | Operational Analytics</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/cytoscape.min.js"></script>
+</head>
+<body>
+<div class="app">
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <div class="logo-icon">&#9881;</div>
+            <div>
+                <h1>STONELINK</h1>
+                <span>Operational Graph Analytics</span>
+            </div>
+        </div>
+        <div class="header-metrics" id="header-metrics"></div>
+        <div class="header-status">
+            <div class="status-dot"></div>
+            <span class="status-text">SISTEMA ACTIVO</span>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main-content">
+        <!-- LEFT PANEL -->
+        <div class="left-panel">
+            <!-- Filters -->
+            <div class="panel-section">
+                <div class="panel-title">Filtros</div>
+                <div class="filter-chips" id="filter-chips"></div>
+            </div>
+
+            <!-- Events -->
+            <div class="panel-section" style="flex:1; overflow:hidden; display:flex; flex-direction:column;">
+                <div class="panel-title">
+                    Incidentes <span class="count" id="event-count">0</span>
+                </div>
+                <div class="events-list" id="events-list"></div>
+            </div>
+
+            <!-- Simulation -->
+            <div class="panel-section">
+                <div class="panel-title">Simular Falla</div>
+                <div class="sim-controls">
+                    <select class="sim-select" id="sim-select">
+                        <option value="">Seleccionar equipo...</option>
+                    </select>
+                    <button class="sim-btn" id="sim-btn" onclick="simulateFault()">
+                        &#9888; Simular Impacto
+                    </button>
+                    <button class="sim-btn reset" id="sim-reset" onclick="resetSimulation()" style="display:none;">
+                        Restablecer
+                    </button>
+                </div>
+            </div>
+
+            <!-- Legend -->
+            <div class="panel-section">
+                <div class="panel-title">Leyenda</div>
+                <div class="legend" id="legend"></div>
+            </div>
+        </div>
+
+        <!-- GRAPH -->
+        <div class="graph-area">
+            <div class="graph-bg-grid"></div>
+            <div id="cy"></div>
+            <div class="node-tooltip" id="node-tooltip"></div>
+            <div class="impact-overlay" id="impact-overlay">
+                <button class="impact-close" onclick="closeImpact()">&times;</button>
+                <div class="impact-title">&#9888; Analisis de Impacto</div>
+                <div id="impact-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- BOTTOM BAR -->
+    <div class="bottom-bar" id="bottom-bar">
+        <span class="flow-label">Flujo Operacional</span>
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>
