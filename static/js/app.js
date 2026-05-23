@@ -18,16 +18,73 @@ const NODE_SHAPES = {
 
 let cy;
 let allElements = { nodes: [], edges: [] };
+let _dbPollInterval = null;
+let _dbPollSeconds = 0;
 
 document.addEventListener('DOMContentLoaded', init);
 
 window.addEventListener('resize', () => {
-    cy.resize();
-    cy.fit(cy.nodes(), 40);
+    if (cy) { cy.resize(); cy.fit(cy.nodes(), 40); }
 });
+
+// ── DB status / offline overlay ───────────────────────────────────────────────
+
+function showDbOffline() {
+    document.getElementById('db-offline-overlay').classList.add('visible');
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('status-text');
+    dot.classList.add('offline');
+    txt.textContent = 'BD OFFLINE';
+}
+
+function hideDbOffline() {
+    document.getElementById('db-offline-overlay').classList.remove('visible');
+    const dot = document.getElementById('status-dot');
+    const txt = document.getElementById('status-text');
+    dot.classList.remove('offline');
+    txt.textContent = 'SISTEMA ACTIVO';
+}
+
+function updateDbTimer() {
+    _dbPollSeconds++;
+    const el = document.getElementById('db-offline-timer');
+    if (el) el.textContent = `Esperando conexión… ${_dbPollSeconds}s`;
+}
+
+async function checkDbStatus() {
+    try {
+        const res = await fetch('/api/status', { cache: 'no-store' });
+        return res.ok;
+    } catch {
+        return false;
+    }
+}
+
+async function waitForDb() {
+    showDbOffline();
+    _dbPollSeconds = 0;
+    return new Promise(resolve => {
+        const timer = setInterval(updateDbTimer, 1000);
+        _dbPollInterval = setInterval(async () => {
+            if (await checkDbStatus()) {
+                clearInterval(_dbPollInterval);
+                clearInterval(timer);
+                _dbPollInterval = null;
+                hideDbOffline();
+                resolve();
+            }
+        }, 5000);
+    });
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
 
 async function init() {
     initCytoscape();
+
+    const online = await checkDbStatus();
+    if (!online) await waitForDb();
+
     await Promise.all([
         loadGraph(),
         loadEventos(),
@@ -203,15 +260,12 @@ function initCytoscape() {
 
 async function loadGraph() {
     const res = await fetch('/api/graph');
+    if (!res.ok) return;
     const data = await res.json();
     allElements = data;
     cy.add(data.nodes);
     cy.add(data.edges);
-    // Fit all nodes into view after DOM has painted
-    setTimeout(() => {
-        cy.resize();
-        cy.fit(cy.nodes(), 40);
-    }, 400);
+    setTimeout(() => { cy.resize(); cy.fit(cy.nodes(), 40); }, 400);
 }
 
 function runLayout() {
@@ -286,6 +340,7 @@ function unhighlightAll() {
 // Events
 async function loadEventos() {
     const res = await fetch('/api/eventos');
+    if (!res.ok) return;
     const data = await res.json();
     const list = document.getElementById('events-list');
     document.getElementById('event-count').textContent = data.length;
@@ -320,6 +375,7 @@ function focusEvent(equipo) {
 // Metrics
 async function loadMetricas() {
     const res = await fetch('/api/metricas');
+    if (!res.ok) return;
     const data = await res.json();
     const container = document.getElementById('header-metrics');
 

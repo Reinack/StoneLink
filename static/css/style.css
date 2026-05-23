@@ -682,6 +682,104 @@ header {
     100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
+/* STATUS DOT — offline state */
+.status-dot.offline {
+    background: var(--red);
+    animation: pulse-dot-red 1s infinite;
+}
+
+@keyframes pulse-dot-red {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,0.6); }
+    50% { opacity: 0.6; box-shadow: 0 0 6px 3px rgba(239,68,68,0.3); }
+}
+
+/* DB OFFLINE OVERLAY */
+.db-offline-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 14, 23, 0.92);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.db-offline-overlay.visible {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.db-offline-box {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--orange);
+    border-radius: 12px;
+    padding: 40px 48px;
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+}
+
+.db-offline-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: db-icon-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes db-icon-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.15); opacity: 0.7; }
+}
+
+.db-offline-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--orange);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.db-offline-msg {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 28px;
+}
+
+.db-offline-progress {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.db-offline-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--orange-dim), var(--orange));
+    border-radius: 2px;
+    animation: db-bar-scan 2s ease-in-out infinite;
+}
+
+@keyframes db-bar-scan {
+    0%   { width: 0%;   margin-left: 0%; }
+    50%  { width: 60%;  margin-left: 20%; }
+    100% { width: 0%;   margin-left: 100%; }
+}
+
+.db-offline-timer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
 /* RESPONSIVE */
 @media (max-width: 900px) {
     .main-content {

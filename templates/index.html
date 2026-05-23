@@ -20,8 +20,8 @@
         </div>
         <div class="header-metrics" id="header-metrics"></div>
         <div class="header-status">
-            <div class="status-dot"></div>
-            <span class="status-text">SISTEMA ACTIVO</span>
+            <div class="status-dot" id="status-dot"></div>
+            <span class="status-text" id="status-text">SISTEMA ACTIVO</span>
         </div>
     </header>
 
@@ -82,6 +82,22 @@
     <!-- BOTTOM BAR -->
     <div class="bottom-bar" id="bottom-bar">
         <span class="flow-label">Flujo Operacional</span>
+    </div>
+</div>
+
+<!-- DB Offline Overlay -->
+<div class="db-offline-overlay" id="db-offline-overlay">
+    <div class="db-offline-box">
+        <div class="db-offline-icon">&#9889;</div>
+        <div class="db-offline-title">Base de Datos Iniciando</div>
+        <div class="db-offline-msg">
+            Neo4j AuraDB se encuentra pausada.<br>
+            Iniciando conexión, por favor espere&hellip;
+        </div>
+        <div class="db-offline-progress">
+            <div class="db-offline-bar" id="db-offline-bar"></div>
+        </div>
+        <div class="db-offline-timer" id="db-offline-timer">Verificando conexión…</div>
     </div>
 </div>
 
