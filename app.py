@@ -97,12 +97,6 @@ _INDIRECT_QUERIES = {
 }
 atexit.register(close_driver)
 
-_DB_OFFLINE_RESPONSE = (
-    jsonify({"error": "db_offline", "message": "Base de datos iniciando, intente en unos segundos"}),
-    503,
-)
-
-
 def db_offline_response():
     return jsonify({"error": "db_offline", "message": "Base de datos iniciando, intente en unos segundos"}), 503
 
