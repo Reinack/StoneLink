@@ -1,0 +1,6 @@
+id,nombre,tipo,unidad
+1,Piedra caliza,Roca,Tonelada
+2,Grava gruesa,Agregado,Tonelada
+3,Arena fina,Agregado,Tonelada
+4,Roca basaltica,Roca,Tonelada
+5,Polvo de roca,Subproducto,Tonelada

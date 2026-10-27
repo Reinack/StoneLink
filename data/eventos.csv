@@ -1,0 +1,9 @@
+id,tipo,criticidad,descripcion,equipo_afectado
+1,Falla trituradora,Alta,Rotura de mandibula en trituradora primaria,Planta A
+2,Sobrecarga,Media,Exceso de carga en cinta transportadora,Planta B
+3,Mantenimiento,Baja,Cambio de filtros programado,CAT 773
+4,Falla electrica,Alta,Corte de suministro en zona de procesamiento,Planta C
+5,Desgaste,Media,Desgaste prematuro en neumaticos,Volvo A40
+6,Falla hidraulica,Alta,Perdida de presion en sistema hidraulico,Komatsu HD465
+7,Retraso logistico,Media,Demora en llegada de repuestos criticos,Planta A
+8,Accidente menor,Baja,Derrame controlado de combustible,CAT 775

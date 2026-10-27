@@ -1,0 +1,5 @@
+id,nombre,ubicacion,estado,capacidad_ton
+1,Cantera Norte,Zona A,Activa,5000
+2,Cantera Central,Zona B,Activa,8000
+3,Cantera Sur,Zona C,Mantenimiento,3000
+4,Cantera Este,Zona D,Activa,6000
