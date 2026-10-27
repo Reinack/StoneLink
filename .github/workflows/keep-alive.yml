@@ -1,0 +1,34 @@
+# Ping diario a la demo para que Neo4j Aura Free no se pause.
+# Aura Free se pausa a los ~3 días sin conexiones y borra la instancia pausada
+# al mes; Render free apaga el servicio a los 15 min sin tráfico, así que nadie
+# toca Aura si no entra una visita. /api/status abre una conexión autenticada
+# contra Aura (verify_connectivity): despierta Render y resetea el reloj de Aura
+# de un solo golpe. Mismo mecanismo que aoe2-codex.
+#
+# Si falla (Aura pausada/borrada, env vars viejas en Render), /api/status
+# devuelve 503, el job queda en rojo y GitHub avisa por mail: sirve también de
+# alerta.
+name: keep-alive
+
+on:
+  schedule:
+    - cron: "47 9 * * *"   # todos los días, 09:47 UTC (06:47 en Uruguay)
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      # Override opcional: Settings → Secrets and variables → Actions → Variables.
+      STATUS_URL: ${{ vars.STONELINK_STATUS_URL || 'https://stonelink.onrender.com/api/status' }}
+    steps:
+      - name: Ping /api/status
+        # El cold start de Render tarda ~50 s y mientras arranca puede responder
+        # 502: se reintenta en vez de fallar al primer intento.
+        run: |
+          curl --fail --silent --show-error \
+            --max-time 90 --retry 6 --retry-delay 20 --retry-all-errors \
+            "$STATUS_URL"
